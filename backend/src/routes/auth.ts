@@ -1,5 +1,4 @@
-import express from "express";
-import { Request, Response, Router } from "express";
+import express, { Request, Response, Router } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
@@ -20,8 +19,8 @@ router.post("/register", async (req: Request, res: Response): Promise<void> => {
       res.status(400).json({ message: "User already exists" });
       return;
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
     const user = await prisma.user.create({
       data: { name, email, password: hashedPassword },
     });
