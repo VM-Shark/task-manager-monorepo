@@ -39,10 +39,7 @@ router.get(
       const tasks = await prisma.task.findMany({
         where: { userId: req.user.userId },
       });
-      if (tasks.length === 0) {
-        res.status(404).json({ message: "No tasks found" });
-        return;
-      }
+
       res.status(200).json(tasks);
     } catch (error) {
       console.error("Error finding tasks:", error);
